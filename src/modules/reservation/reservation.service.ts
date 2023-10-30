@@ -55,6 +55,27 @@ export class ReservationService {
     reservationInfo: CreateReservationDto
   ) {
     
+    //Creating flight
+    const [errorExist, exists] = await to(
+      entityManager.findOne(Reservations, {
+        where: {
+          email: reservationInfo.email,
+          flight_id: reservationInfo.flight_id
+        },
+        select: ['id'],
+      }),
+    );
+
+    if (errorExist) {
+      throw new BadRequestException(errorExist);
+    }
+
+    if (exists) {
+      throw new BadRequestException({
+        message: 'Ya reservaste este vuelo'
+      });
+    }
+
     const reservation = entityManager.create<Reservations>(Reservations, reservationInfo);
 
     const [errorReservation, newReservation] = await to(entityManager.save(Reservations, reservation));
