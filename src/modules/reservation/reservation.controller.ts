@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param, HttpStatus, HttpException, Query, BadRequestException } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
 import { CreateReservationDto } from './reservation.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import to from 'await-to-js';
 import { PageOptionsDto } from 'src/common/pagination';
 
@@ -10,6 +10,9 @@ import { PageOptionsDto } from 'src/common/pagination';
 export class ReservationController {
   constructor(private readonly reservationService: ReservationService) {}
 
+  @ApiOperation({
+    summary: 'Crear una reserva'
+  })
   @Post()
   async create(@Body() createReservationDto: CreateReservationDto) {
     const [error, response] = await to(
@@ -25,6 +28,9 @@ export class ReservationController {
     return response;
   }
 
+  @ApiOperation({
+    summary: 'Obtener todas las reservas'
+  })
   @Get()
   async findAll(@Query() pageOptionsDto: PageOptionsDto) {
     const [error, response] = await to(
