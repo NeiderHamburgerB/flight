@@ -38,8 +38,4 @@ export class ReservationController {
     return response;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.reservationService.findOne(+id);
-  }
 }
