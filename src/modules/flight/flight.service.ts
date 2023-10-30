@@ -68,6 +68,13 @@ export class FlightService {
       }),
     );
 
+    const goingDate = new Date(flightInfo?.going_date_time);
+    const returnDate = new Date(flightInfo?.return_date_time);
+    
+    if (goingDate > returnDate) {
+      throw new BadRequestException('La fecha de inicio no puede ser mayor a la de regreso');
+    }
+
     if (errorExist) {
       throw new BadRequestException(errorExist);
     }
